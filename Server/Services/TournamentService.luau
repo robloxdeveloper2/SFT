@@ -1,51 +1,23 @@
--- Server/Services/CombatService.luau
---!strict
+-- Server/Services/TournamentService.luau
+export type TournamentBracket = {
+    Rounds: { { Match } },
+    CurrentRound: number,
+    Champion: number?,
+}
 
-local CombatService = {}
+export type Match = {
+    Player1: number?,
+    Player2: number?,
+    Winner: number?,
+    Arena: string, -- Which sub-arena for 1v1
+}
 
-local Players = game:GetService("Players")
-
-local Shared = game.ReplicatedStorage.Shared
-local RoundService = require(script.Parent.RoundService)
-
-function CombatService.Init()
-    -- Set up player death handling
-    Players.PlayerAdded:Connect(function(player)
-        player.CharacterAdded:Connect(function(character)
-            CombatService._SetupCharacter(character)
-        end)
-    end)
-    
-    -- Handle existing players
-    for _, player in Players:GetPlayers() do
-        if player.Character then
-            CombatService._SetupCharacter(player.Character)
-        end
-        player.CharacterAdded:Connect(function(character)
-            CombatService._SetupCharacter(character)
-        end)
-    end
+function TournamentService.GenerateBracket(players: {Player}): TournamentBracket
+    -- Create single-elimination bracket
+    -- Handle byes for non-power-of-2 player counts
 end
 
-function CombatService._SetupCharacter(character: Model)
-    local humanoid = character:WaitForChild("Humanoid")
-    local player = Players:GetPlayerFromCharacter(character)
-    
-    if not player then return end
-    
-    humanoid.Died:Connect(function()
-        local currentRound = RoundService.GetCurrentRound()
-        local playerState = RoundService.GetPlayerState(player.UserId)
-        
-        -- Only eliminate if they're currently fighting
-        if currentRound.State == "Active" and playerState == "Fighting" then
-            RoundService.EliminatePlayer(player.UserId)
-        end
-    end)
+function TournamentService.StartMatch(match: Match)
+    -- Teleport players to isolated 1v1 arena
+    -- Track match results
 end
-
-function CombatService.Start()
-    print("CombatService started")
-end
-
-return CombatService

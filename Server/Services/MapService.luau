@@ -1,51 +1,28 @@
--- Server/Services/CombatService.luau
---!strict
+-- Server/Services/MapService.luau
+local MapService = {}
 
-local CombatService = {}
+local Maps = {
+    {
+        Name = "Arena Classic",
+        GameModes = {"FFA", "TDM", "Tournament"},
+        SpawnPoints = {
+            Lobby = CFrame.new(0, 10, 0),
+            Arena = { --[[ multiple spawn points ]] },
+            Spectator = { --[[ spectator positions ]] }
+        },
+        Objectives = {
+            Hill = CFrame.new(0, 5, 0),
+            -- etc...
+        }
+    },
+    -- More maps...
+}
 
-local Players = game:GetService("Players")
-
-local Shared = game.ReplicatedStorage.Shared
-local RoundService = require(script.Parent.RoundService)
-
-function CombatService.Init()
-    -- Set up player death handling
-    Players.PlayerAdded:Connect(function(player)
-        player.CharacterAdded:Connect(function(character)
-            CombatService._SetupCharacter(character)
-        end)
-    end)
-    
-    -- Handle existing players
-    for _, player in Players:GetPlayers() do
-        if player.Character then
-            CombatService._SetupCharacter(player.Character)
-        end
-        player.CharacterAdded:Connect(function(character)
-            CombatService._SetupCharacter(character)
-        end)
-    end
+function MapService.LoadMap(mapName: string)
+    -- Load map from ServerStorage/Maps
+    -- Set up spawn points, objectives, etc.
 end
 
-function CombatService._SetupCharacter(character: Model)
-    local humanoid = character:WaitForChild("Humanoid")
-    local player = Players:GetPlayerFromCharacter(character)
-    
-    if not player then return end
-    
-    humanoid.Died:Connect(function()
-        local currentRound = RoundService.GetCurrentRound()
-        local playerState = RoundService.GetPlayerState(player.UserId)
-        
-        -- Only eliminate if they're currently fighting
-        if currentRound.State == "Active" and playerState == "Fighting" then
-            RoundService.EliminatePlayer(player.UserId)
-        end
-    end)
+function MapService.VoteForMap(player: Player, mapName: string)
+    -- Handle map voting logic
 end
-
-function CombatService.Start()
-    print("CombatService started")
-end
-
-return CombatService

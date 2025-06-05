@@ -63,6 +63,7 @@ function RoundController._CreateUI()
     screenGui.Name = "RoundUI"
     screenGui.ResetOnSpawn = false
     screenGui.Parent = playerGui
+    screenGui.IgnoreGuiInset = true
     
     -- Round status frame
     local statusFrame = Instance.new("Frame")

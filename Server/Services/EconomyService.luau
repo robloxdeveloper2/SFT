@@ -1,51 +1,22 @@
--- Server/Services/CombatService.luau
---!strict
+-- Server/Services/EconomyService.luau
+local EconomyService = {}
 
-local CombatService = {}
+local POINT_REWARDS = {
+    TournamentWin = 150,
+    TournamentParticipation = 20,
+    FillerWin = 50,
+    FillerParticipation = 10,
+    Kill = 5,
+    Objective = 10,
+    -- etc...
+}
 
-local Players = game:GetService("Players")
-
-local Shared = game.ReplicatedStorage.Shared
-local RoundService = require(script.Parent.RoundService)
-
-function CombatService.Init()
-    -- Set up player death handling
-    Players.PlayerAdded:Connect(function(player)
-        player.CharacterAdded:Connect(function(character)
-            CombatService._SetupCharacter(character)
-        end)
+function EconomyService.AwardPoints(userId: number, reason: string, amount: number?)
+    local points = amount or POINT_REWARDS[reason] or 0
+    
+    PlayerData.Patch(userId, function(data)
+        data.Wallet.Credits += points
     end)
     
-    -- Handle existing players
-    for _, player in Players:GetPlayers() do
-        if player.Character then
-            CombatService._SetupCharacter(player.Character)
-        end
-        player.CharacterAdded:Connect(function(character)
-            CombatService._SetupCharacter(character)
-        end)
-    end
+    -- Fire event to client for UI notification
 end
-
-function CombatService._SetupCharacter(character: Model)
-    local humanoid = character:WaitForChild("Humanoid")
-    local player = Players:GetPlayerFromCharacter(character)
-    
-    if not player then return end
-    
-    humanoid.Died:Connect(function()
-        local currentRound = RoundService.GetCurrentRound()
-        local playerState = RoundService.GetPlayerState(player.UserId)
-        
-        -- Only eliminate if they're currently fighting
-        if currentRound.State == "Active" and playerState == "Fighting" then
-            RoundService.EliminatePlayer(player.UserId)
-        end
-    end)
-end
-
-function CombatService.Start()
-    print("CombatService started")
-end
-
-return CombatService

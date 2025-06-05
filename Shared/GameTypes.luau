@@ -35,7 +35,7 @@ export type TeamInfo = {
 }
 
 export type ObjectiveInfo = {
-    Type: "Hill" | "Flag" | "Payload",
+    Type: "Hill" | "Flag" | "Payload" | "Score",
     Position: CFrame,
     OwningTeam: string?,
     Progress: number,
