@@ -1,0 +1,157 @@
+## Core Game Structure
+
+**Tournament Queue System**
+- Players join a central lobby where they can observe ongoing fights
+- Main tournament queue automatically matches players for 1v1 duels
+- Bracket-style elimination tournaments with 4-16 players depending on server population
+- Winners advance through rounds until a tournament champion is declared
+
+**Filler Round Rotation**
+- Team Deathmatch (TDM): Two teams (all ready players split between the two teams) battle for kill count supremacy
+- Free-For-All (FFA): Everyone vs everyone elimination kill race
+- King of the Hill (KOTH)(team and ffa) : Control central area for point accumulation
+- Capture the Flag (CTF): Team-based objective gameplay
+- Payload: Escort/defend moving objective across map
+- Juggernaut: One powered player vs multiple standard players
+
+**Spectator Economy**
+- Non-fighting players watch from designated spectator areas around the arena
+- Shop and customize player/arena/sword effects
+- Map voting occurs between rounds - players vote on next arena
+
+## Game Loop Breakdown
+
+**1. Server Join**
+- Player spawns in central lobby hub
+- Receives default linked sword with basic appearance
+- Can immediately join tournament queue or browse customization shop
+
+**2. Round Rotation**
+- Tournament rounds serve as primary competitive mode
+- Filler rounds (TDM, FFA, KOTH, CTF, Payload) occur between tournaments
+- Each round type has 3-5 minute duration
+- Automatic rotation ensures variety and continuous action
+
+**3. Tournament Phase**
+- Fighters teleport to selected arena map
+- 1v1 duels with elimination progression
+- Each fight has 60-90 second time limit
+- Winner advances, loser returns to lobby queue
+
+**4. Filler Round Participation**
+- All ready players participate in objective-based modes
+- Points awarded based on performance and objectives completed
+- Casual gameplay between intense tournament pressure
+- Maintains server engagement during tournament downtime
+
+**5. Spectating
+- Real-time health/status displays for both fighters
+
+**6. Post-Round Rewards**
+- Winner receives points based on performance and round type
+- Participation rewards for all players
+- Streak bonuses for consecutive tournament wins
+- Daily/weekly challenges provide additional point sources
+
+## Weapon System & Customization
+
+**Universal Linked Sword**
+- Single weapon type ensures balanced gameplay
+- Standard damage, range, and swing speed for all players
+- Classic lunge and slash mechanics
+- No stat advantages between players
+
+**Sword Customization Shop**
+- Blade skins: Visual appearance modifications (materials, colors, patterns)
+- Aura effects: Particle effects around sword (fire, lightning, mystical)
+- Trail effects: Motion trails during swings
+- Sound effects: Custom slash and lunge audio
+
+**Player Effect Customization**
+- Kill effects: Particle explosions, screen effects when eliminating opponents
+- Death effects: Custom animations or particles when eliminated
+- Victory effects: Celebrations after tournament wins
+- Defeat effects: Unique animations for tournament losses
+
+## Point Economy & Progression
+
+**Point Earning Methods**
+- Tournament wins: 75-150 points
+- Tournament participation: 15-30 points
+- Filler round victories: 25-50 points
+- Objective completions: 5-15 points per objective
+- Successful bets: Variable based on odds and wager amount
+- Daily login streaks and challenge completions
+
+**Spending Categories**
+- Sword cosmetics: 100-500 points per item
+- Player effects: 200-800 points per effect
+- Premium customization unlocks: Higher point costs for exclusive items
+
+## Game Mode Variety
+
+**Tournament (Primary Mode)**
+- 1v1, 2v2, and 3v3 elimination bracket
+- Single-life rounds
+- Winner-take-all progression
+- Highest point rewards
+
+**Team Deathmatch**
+- Two balanced teams compete for kill count
+- Respawn-based gameplay
+- First team to target kills wins
+- Chaos
+
+**Free-For-All**
+- Every player vs every other player
+- Last player standing wins
+- Chaotic combat environment
+- Individual skill emphasis
+
+**King of the Hill**
+- Central capture point on each map
+- Points accumulate while controlling hill
+- First to target score wins
+- Positional strategy required
+
+**Capture the Flag**
+- Teams attempt to capture opposing flags
+- Defensive and offensive roles
+- Multi-round format
+- Objective-based teamwork
+
+**Payload**
+- One team escorts moving objective
+- Other team attempts to stop progress
+- Time-based success/failure
+- Asymmetric gameplay
+
+## Map Variety & Rotation
+
+**Diverse Arena Collection**
+- 8-12 unique maps with varied layouts
+- Different tactical opportunities per map
+- Elevation changes, chokepoints, and open areas
+- Random map/round vote for 4/10-6/10 rounds.
+
+## Social & Community Features
+
+**Interactive Systems**
+- Global lobby chat for general discussion
+- Team-specific chat during gameplay
+
+**Achievement System**
+- Round-specific badges for different accomplishments
+- Streak achievements for consecutive wins
+- Challenge completion rewards
+- Leaderboards for various statistics
+
+## Modern Monetization Methods
+
+**Developer Products (Consumables)**
+- Point boosters: Temporary multipliers for point earning
+- Double XP Token
+- Premium membership: Free 600, exclusive cosmetics access (monthly access)
+
+**Cosmetic Marketplace**
+-- wip

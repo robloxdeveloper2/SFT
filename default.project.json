@@ -1,0 +1,32 @@
+{
+    "name": "Boilerplate",
+    "emitLegacyScripts": false,
+
+    "tree": {
+        "$className": "DataModel",
+
+        "ReplicatedFirst": {
+            "$path": "Client"
+        },
+
+        "ReplicatedStorage": {
+            "$className": "ReplicatedStorage",
+
+            "Config": {
+                "$path": "Config"
+            },
+
+            "Packages": {
+                "$path": "Packages"
+            },
+
+            "Shared": {
+                "$path": "Shared"
+            }
+        },
+
+        "ServerStorage": {
+            "$path": "Server"
+        }
+    }
+}
