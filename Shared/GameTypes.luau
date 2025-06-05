@@ -14,6 +14,7 @@ export type GameMode =
     | "TDM"
     | "KOTH"
     | "Tournament"
+    | "TeamTournament"
     | "CTF"
     | "Payload"
     | "Juggernaut"
@@ -25,6 +26,47 @@ export type RoundState =
     | "Ending"
     | "Intermission"
 
+export type TeamInfo = {
+    Name: string,
+    Color: Color3,
+    Players: { number },
+    Score: number,
+    SpawnPoints: { CFrame },
+}
+
+export type ObjectiveInfo = {
+    Type: "Hill" | "Flag" | "Payload",
+    Position: CFrame,
+    OwningTeam: string?,
+    Progress: number,
+    CaptureRadius: number,
+}
+
+-- Tournament specific types
+export type TournamentTeam = {
+    Players: { number }, -- 1 player for solo, 2+ for teams
+    Name: string?, -- Optional team name
+    Seed: number, -- Tournament seeding
+}
+
+export type TournamentMatch = {
+    Team1: TournamentTeam?,
+    Team2: TournamentTeam?,
+    Winner: TournamentTeam?,
+    MatchNumber: number,
+    RoundNumber: number,
+    IsBye: boolean, -- For handling odd numbers
+}
+
+export type TournamentBracket = {
+    Rounds: { { TournamentMatch } },
+    CurrentRound: number,
+    CurrentMatch: number,
+    Champion: TournamentTeam?,
+    TeamSize: number, -- 1 for 1v1, 2 for 2v2, 3 for 3v3
+    AllTeams: { TournamentTeam },
+}
+
 export type RoundInfo = {
     State: RoundState,
     Mode: GameMode,
@@ -34,6 +76,11 @@ export type RoundInfo = {
     PlayersTotal: { number },
     Winner: number?,
     Map: string?,
+    Teams: { [string]: TeamInfo }?,
+    Objectives: { [string]: ObjectiveInfo }?,
+    Scores: { [string]: number }?, -- For TDM, CTF scoring
+    TournamentBracket: TournamentBracket?,
+    ActiveMatch: TournamentMatch?, -- Current tournament match
 }
 
 export type GameConfig = {
@@ -44,6 +91,7 @@ export type GameConfig = {
     RoundTime: number,
     IntermissionTime: number,
     StartCountdown: number,
+    TeamSize: number?, -- For team-based modes
 }
 
 -- Type the GameModes as a record that maps GameMode to GameConfig
@@ -59,7 +107,7 @@ local gameModes: GameModes = {
         MaxPlayers = 36,
         RoundTime = 180,
         IntermissionTime = 10,
-        StartCountdown = 0,
+        StartCountdown = 3,
     },
 
     TDM = {
@@ -69,7 +117,7 @@ local gameModes: GameModes = {
         MaxPlayers = 36,
         RoundTime = 240,
         IntermissionTime = 10,
-        StartCountdown = 0,
+        StartCountdown = 3,
     },
 
     KOTH = {
@@ -79,7 +127,7 @@ local gameModes: GameModes = {
         MaxPlayers = 36,
         RoundTime = 210,
         IntermissionTime = 10,
-        StartCountdown = 0,
+        StartCountdown = 3,
     },
 
     CTF = {
@@ -89,7 +137,7 @@ local gameModes: GameModes = {
         MaxPlayers = 36,
         RoundTime = 300,
         IntermissionTime = 10,
-        StartCountdown = 0,
+        StartCountdown = 3,
     },
 
     Payload = {
@@ -109,17 +157,29 @@ local gameModes: GameModes = {
         MaxPlayers = 36,
         RoundTime = 180,
         IntermissionTime = 10,
-        StartCountdown = 0,
+        StartCountdown = 3,
     },
 
     Tournament = {
         Name = "Tournament",
         Description = "Bracket-style 1v1 elimination. Be the last standing!",
-        MinPlayers = 6,
-        MaxPlayers = 36,
-        RoundTime = 60, -- Per match
+        MinPlayers = 2,
+        MaxPlayers = 32,
+        RoundTime = 90, -- Per match
         IntermissionTime = 10,
-        StartCountdown = 3,
+        StartCountdown = 5,
+        TeamSize = 1,
+    },
+
+    TeamTournament = {
+        Name = "Team Tournament",
+        Description = "Bracket-style team elimination! 2v2 or 3v3 battles.",
+        MinPlayers = 4, -- At least 2 teams of 2
+        MaxPlayers = 36,
+        RoundTime = 120, -- Per match
+        IntermissionTime = 10,
+        StartCountdown = 5,
+        TeamSize = 2, -- Default to 2v2, can be changed
     },
 }
 
